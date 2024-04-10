@@ -4,16 +4,16 @@ const About = () => {
   return (
     <div
       name="about"
-      className="w-full h-screen bg-gradient-to-b from-gray-800 to-black text-white"
+      className="w-full h-screen bg-gradient-to-b from-gray-100 to-gray-200 text-white"
     >
       <div className="max-w-screen-lg p-4 mx-auto flex flex-col justify-center w-full h-full">
         <div className="pb-8">
-          <p className="text-4xl font-bold inline border-b-4 border-gray-500">
-            About
+          <p className="text-4xl font-bold inline border-4 m-4 rounded-mdborder-gray-200">
+            <span className="text-blue-500">About</span>
           </p>
         </div>
 
-        <p className="text-xl mt-20">
+        <p className="text-xl mt-20 text-blue-500">
           I am versatile web developer proficient in Python,
           Django, and full-stack technologies like Next.js
           and React. With Python's robust backend capabilities,
@@ -28,7 +28,7 @@ const About = () => {
 
         <br />
 
-        <p className="text-xl">
+        <p className="text-xl text-blue-500">
           I consistently delivers high-quality solutions tailored to client needs.
           My proficiency in these technologies makes him a valuable asset in the
           ever-evolving landscape of web development.
