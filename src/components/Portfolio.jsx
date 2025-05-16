@@ -37,11 +37,11 @@ const Portfolio = () => {
   return (
     <div
       name="portfolio"
-      className="bg-gradient-to-b from-gray-100 to-gray-400 w-full text-blue-400 md:h-screen "
+      className="bg-gradient-to-b from-purple-500 to-green-500 w-full text-white md:h-screen"
     >
       <div className="max-w-screen-lg p-4 mx-auto flex flex-col justify-center w-full h-full">
-        <div className="pb-8">
-          <p className="text-4xl font-bold inline border-b-4 border-gray-500">
+        <div className="pb-8 text-center">
+          <p className="text-4xl font-bold inline border-b-4 border-white">
             Portfolio
           </p>
           <p className="py-6">Check out some of my work right here</p>
@@ -49,17 +49,17 @@ const Portfolio = () => {
 
         <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8 px-12 sm:px-0">
           {portfolios.map(({ id, src }) => (
-            <div key={id} className="shadow-md shadow-gray-600 rounded-lg">
+            <div key={id} className="shadow-md shadow-gray-600 rounded-lg bg-white/10 backdrop-blur-sm">
               <img
                 src={src}
                 alt=""
                 className="rounded-md duration-200 hover:scale-105"
               />
               <div className="flex items-center justify-center">
-                <button className="w-1/2 px-6 py-3 m-4 duration-200 hover:scale-105">
+                <button className="w-1/2 px-6 py-3 m-4 duration-200 hover:scale-105 bg-purple-600 hover:bg-purple-700 text-white rounded-md">
                   Demo
                 </button>
-                <button className="w-1/2 px-6 py-3 m-4 duration-200 hover:scale-105">
+                <button className="w-1/2 px-6 py-3 m-4 duration-200 hover:scale-105 bg-green-600 hover:bg-green-700 text-white rounded-md">
                   Code
                 </button>
               </div>
