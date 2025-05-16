@@ -3,42 +3,95 @@ import { jsPDF } from 'jspdf';
 export const generateResumePDF = () => {
   const doc = new jsPDF();
   
-  // Set font styles
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(24);
+  // Add gradient background
+  const gradient = doc.setFillColor(147, 51, 234); // Purple
+  doc.rect(0, 0, 210, 297, 'F');
   
-  // Add title
-  doc.text("Chris Maganga", 20, 20);
+  // Add white content area
+  doc.setFillColor(255, 255, 255);
+  doc.rect(10, 10, 190, 277, 'F');
+  
+  // Set font styles for header
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(28);
+  doc.setTextColor(147, 51, 234); // Purple
+  doc.text("Chris Maganga", 20, 30);
   
   // Add subtitle
   doc.setFontSize(16);
-  doc.setFont("helvetica", "normal");
-  doc.text("Full Stack Developer", 20, 30);
+  doc.setTextColor(34, 197, 94); // Green
+  doc.text("Full Stack Developer", 20, 40);
+  
+  // Add decorative line
+  doc.setDrawColor(147, 51, 234);
+  doc.setLineWidth(0.5);
+  doc.line(20, 45, 190, 45);
   
   // Add contact information
   doc.setFontSize(12);
-  doc.text("Contact Information:", 20, 45);
-  doc.text("Email: chrismaganga3@gmail.com", 20, 55);
-  doc.text("GitHub: github.com/Chrismaganga", 20, 65);
-  doc.text("LinkedIn: linkedin.com/in/chrismaganga", 20, 75);
+  doc.setTextColor(75, 85, 99); // Gray-600
+  doc.text("Contact Information", 20, 60);
+  doc.setFont("helvetica", "normal");
+  doc.text("Email: chrismaganga3@gmail.com", 20, 70);
+  doc.text("GitHub: github.com/Chrismaganga", 20, 80);
+  doc.text("LinkedIn: linkedin.com/in/chrismaganga", 20, 90);
   
   // Add skills section
   doc.setFont("helvetica", "bold");
-  doc.text("Skills:", 20, 95);
+  doc.setTextColor(147, 51, 234);
+  doc.text("Technical Skills", 20, 110);
   doc.setFont("helvetica", "normal");
-  doc.text("• JavaScript, React, Next.js", 20, 105);
-  doc.text("• Python, Django, FastAPI", 20, 115);
-  doc.text("• HTML, CSS, Tailwind CSS", 20, 125);
-  doc.text("• Git, GitHub", 20, 135);
+  doc.setTextColor(75, 85, 99);
+  
+  // Create a two-column layout for skills
+  const skills = [
+    "• JavaScript, React, Next.js",
+    "• Python, Django, FastAPI",
+    "• HTML, CSS, Tailwind CSS",
+    "• Git, GitHub",
+    "• RESTful APIs",
+    "• Database Design",
+    "• Responsive Design",
+    "• Agile Methodologies"
+  ];
+  
+  skills.forEach((skill, index) => {
+    const x = index < 4 ? 20 : 105;
+    const y = 120 + ((index % 4) * 10);
+    doc.text(skill, x, y);
+  });
   
   // Add experience section
   doc.setFont("helvetica", "bold");
-  doc.text("Experience:", 20, 155);
+  doc.setTextColor(147, 51, 234);
+  doc.text("Professional Experience", 20, 170);
+  
+  // Experience details
+  doc.setFont("helvetica", "bold");
+  doc.setTextColor(34, 197, 94);
+  doc.text("Full Stack Developer", 20, 180);
   doc.setFont("helvetica", "normal");
-  doc.text("Full Stack Developer - 6 years", 20, 165);
-  doc.text("• Built and designed software applications", 20, 175);
-  doc.text("• Developed web applications using modern technologies", 20, 185);
-  doc.text("• Implemented responsive and user-friendly interfaces", 20, 195);
+  doc.setTextColor(75, 85, 99);
+  doc.text("6 Years of Experience", 20, 190);
+  
+  const experiences = [
+    "• Built and designed software applications using modern technologies",
+    "• Developed responsive web applications with React and Next.js",
+    "• Implemented RESTful APIs using Python, Django, and FastAPI",
+    "• Created user-friendly interfaces with Tailwind CSS",
+    "• Collaborated with cross-functional teams using Agile methodologies",
+    "• Optimized application performance and user experience"
+  ];
+  
+  experiences.forEach((exp, index) => {
+    doc.text(exp, 20, 200 + (index * 10));
+  });
+  
+  // Add footer
+  doc.setFontSize(10);
+  doc.setTextColor(147, 51, 234);
+  doc.text("Generated from Portfolio", 20, 280);
+  doc.text(new Date().toLocaleDateString(), 170, 280);
   
   // Save the PDF
   doc.save("Chris_Maganga_Resume.pdf");
