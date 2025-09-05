@@ -1,48 +1,285 @@
-import React from "react";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
+import DjangoAPI from "./DjangoAPI";
+import FlashingCard from "./FlashingCard";
 
 const Contact = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showAPI, setShowAPI] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    // Simulate form submission
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    setIsSubmitting(false);
+    setFormData({ name: '', email: '', message: '' });
+    
+    // Show success message
+    alert('Message sent successfully!');
+  };
+
+  const contactInfo = [
+    {
+      icon: <FaEnvelope className="text-2xl" />,
+      title: "Email",
+      value: "chrismaganga3@gmail.com",
+      gradient: "from-blue-500 to-cyan-500"
+    },
+    {
+      icon: <FaPhone className="text-2xl" />,
+      title: "Phone",
+      value: "+1 (555) 123-4567",
+      gradient: "from-green-500 to-emerald-500"
+    },
+    {
+      icon: <FaMapMarkerAlt className="text-2xl" />,
+      title: "Location",
+      value: "San Francisco, CA",
+      gradient: "from-purple-500 to-pink-500"
+    }
+  ];
+
+  const socialLinks = [
+    {
+      icon: <FaGithub className="text-2xl" />,
+      name: "GitHub",
+      url: "https://github.com/Chrismaganga",
+      gradient: "from-gray-500 to-gray-700"
+    },
+    {
+      icon: <FaLinkedin className="text-2xl" />,
+      name: "LinkedIn",
+      url: "https://linkedin.com/in/chrismaganga",
+      gradient: "from-blue-600 to-blue-800"
+    },
+    {
+      icon: <FaTwitter className="text-2xl" />,
+      name: "Twitter",
+      url: "https://twitter.com/chrismaganga",
+      gradient: "from-cyan-500 to-blue-500"
+    }
+  ];
+
   return (
     <div
       name="contact"
-      className="w-full h-screen bg-gradient-to-b from-purple-500 to-green-500 p-4 text-white"
+      className="w-full min-h-screen bg-gradient-to-b from-purple-500 to-green-500 p-4 text-white relative overflow-hidden"
     >
-      <div className="flex flex-col p-4 justify-center max-w-screen-lg mx-auto h-full">
-        <div className="pb-8 text-center">
-          <p className="text-4xl font-bold uppercase">
-            <span className="text-white">Contact</span>
-          </p>
-          <p className="py-6">Submit the form below to get in touch with me</p>
-        </div>
+      {/* Animated background */}
+      <div className="absolute inset-0 overflow-hidden">
+        {[...Array(25)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1 h-1 bg-white/20 rounded-full"
+            animate={{
+              x: [0, Math.random() * 600 - 300],
+              y: [0, Math.random() * 600 - 300],
+              opacity: [0, 1, 0],
+              scale: [0, 1, 0]
+            }}
+            transition={{
+              duration: 5 + Math.random() * 3,
+              repeat: Infinity,
+              delay: Math.random() * 4
+            }}
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`
+            }}
+          />
+        ))}
+      </div>
 
-        <div className="flex justify-center items-center">
-          <form
-            action="https://getform.io/f/qblolqxa"
-            method="POST"
-            className="flex flex-col w-full md:w-3/4"
+      <div className="flex flex-col justify-center max-w-screen-lg mx-auto min-h-screen relative z-10">
+        {/* Header */}
+        <motion.div 
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="pb-8 text-center"
+        >
+          <h2 className="text-4xl font-bold uppercase mb-4">
+            <span className="bg-gradient-to-r from-yellow-400 to-pink-500 bg-clip-text text-transparent">
+              Contact Me
+            </span>
+          </h2>
+          <p className="py-6 text-xl">Let's build something amazing together</p>
+          
+          {/* API Toggle Button */}
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setShowAPI(!showAPI)}
+            className="mb-8 px-6 py-3 bg-gradient-to-r from-green-600 to-blue-600 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
           >
-            <input
-              type="text"
-              name="name"
-              placeholder="Enter your name"
-              className="p-2 bg-white/90 border-2 rounded-md text-gray-800 placeholder-gray-500 focus:outline-none focus:border-purple-500"
-            />
-            <input
-              type="text"
-              name="email"
-              placeholder="Enter your email"
-              className="my-4 p-2 bg-white/90 border-2 rounded-md text-gray-800 placeholder-gray-500 focus:outline-none focus:border-purple-500"
-            />
-            <textarea
-              name="message"
-              placeholder="Enter your message"
-              rows="10"
-              className="p-2 bg-white/90 border-2 rounded-md text-gray-800 placeholder-gray-500 focus:outline-none focus:border-purple-500"
-            ></textarea>
+            {showAPI ? 'Hide API Documentation' : 'View API Documentation'}
+          </motion.button>
+        </motion.div>
 
-            <button className="text-white bg-gradient-to-r from-purple-600 to-green-600 px-6 py-3 my-8 mx-auto flex items-center rounded-md hover:scale-110 duration-300 font-semibold shadow-lg hover:shadow-xl">
-              Let's talk
-            </button>
-          </form>
+        {/* API Documentation Section */}
+        <AnimatePresence>
+          {showAPI && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.5 }}
+              className="mb-12"
+            >
+              <DjangoAPI />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <div className="grid lg:grid-cols-2 gap-12">
+          {/* Contact Information */}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.3, duration: 0.8 }}
+            className="space-y-8"
+          >
+            <h3 className="text-2xl font-bold mb-6">
+              <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                Get In Touch
+              </span>
+            </h3>
+
+            {/* Contact info cards */}
+            <div className="space-y-4">
+              {contactInfo.map((info, index) => (
+                <FlashingCard
+                  key={index}
+                  title={info.title}
+                  description={info.value}
+                  icon={info.icon}
+                  gradient={info.gradient}
+                  delay={index * 0.2}
+                  className="h-20"
+                />
+              ))}
+            </div>
+
+            {/* Social links */}
+            <div className="mt-8">
+              <h4 className="text-lg font-semibold mb-4 text-white/90">Follow Me</h4>
+              <div className="flex space-x-4">
+                {socialLinks.map((social, index) => (
+                  <motion.a
+                    key={index}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    whileHover={{ scale: 1.2, rotate: 5 }}
+                    whileTap={{ scale: 0.9 }}
+                    className={`p-3 rounded-full bg-gradient-to-r ${social.gradient} shadow-lg hover:shadow-xl transition-all duration-300`}
+                  >
+                    {social.icon}
+                  </motion.a>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Contact Form */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.5, duration: 0.8 }}
+            className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20"
+          >
+            <h3 className="text-2xl font-bold mb-6">
+              <span className="bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">
+                Send Message
+              </span>
+            </h3>
+
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.7, duration: 0.5 }}
+              >
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your Name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  className="w-full p-4 bg-white/90 border-2 rounded-lg text-gray-800 placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-300"
+                />
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8, duration: 0.5 }}
+              >
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Your Email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  className="w-full p-4 bg-white/90 border-2 rounded-lg text-gray-800 placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-300"
+                />
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.9, duration: 0.5 }}
+              >
+                <textarea
+                  name="message"
+                  placeholder="Your Message"
+                  rows="6"
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
+                  className="w-full p-4 bg-white/90 border-2 rounded-lg text-gray-800 placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 resize-none"
+                />
+              </motion.div>
+
+              <motion.button
+                type="submit"
+                disabled={isSubmitting}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-full bg-gradient-to-r from-purple-600 to-green-600 px-6 py-4 rounded-lg font-semibold text-white shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? (
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    className="inline-block"
+                  >
+                    ⏳
+                  </motion.div>
+                ) : (
+                  "Send Message"
+                )}
+              </motion.button>
+            </form>
+          </motion.div>
         </div>
       </div>
     </div>

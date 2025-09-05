@@ -11,6 +11,9 @@ export const generateResumePDF = () => {
   doc.setFillColor(255, 255, 255);
   doc.rect(10, 10, 190, 277, 'F');
   
+  // Add watermark
+  addWatermark(doc);
+  
   // Set font styles for header
   doc.setFont("helvetica", "bold");
   doc.setFontSize(28);
@@ -95,4 +98,76 @@ export const generateResumePDF = () => {
   
   // Save the PDF
   doc.save("Chris_Maganga_Resume.pdf");
-}; 
+};
+
+// Function to add watermark to PDF
+const addWatermark = (doc) => {
+  // Save current graphics state
+  doc.saveGraphicsState();
+  
+  // Set watermark properties
+  doc.setGState(new doc.GState({opacity: 0.1}));
+  doc.setFontSize(60);
+  doc.setTextColor(200, 200, 200); // Light gray
+  doc.setFont("helvetica", "bold");
+  
+  // Rotate and position watermark
+  doc.setGState(new doc.GState({opacity: 0.1}));
+  
+  // Add multiple watermarks across the page
+  const watermarkText = "PORTFOLIO";
+  const angle = -45; // 45 degrees rotation
+  
+  // Calculate positions for diagonal watermarks
+  const positions = [
+    { x: 50, y: 100 },
+    { x: 100, y: 150 },
+    { x: 150, y: 200 },
+    { x: 80, y: 250 }
+  ];
+  
+  positions.forEach(pos => {
+    // Save state
+    doc.saveGraphicsState();
+    
+    // Translate to position
+    doc.translate(pos.x, pos.y);
+    
+    // Rotate
+    doc.rotate(angle * Math.PI / 180);
+    
+    // Draw watermark text
+    doc.text(watermarkText, 0, 0);
+    
+    // Restore state
+    doc.restoreGraphicsState();
+  });
+  
+  // Add subtle border watermark
+  doc.setGState(new doc.GState({opacity: 0.05}));
+  doc.setDrawColor(147, 51, 234);
+  doc.setLineWidth(2);
+  
+  // Draw decorative border
+  for (let i = 0; i < 5; i++) {
+    const offset = i * 2;
+    doc.rect(15 + offset, 15 + offset, 180 - (offset * 2), 267 - (offset * 2));
+  }
+  
+  // Add corner decorations
+  const cornerSize = 10;
+  const corners = [
+    { x: 20, y: 20 },
+    { x: 190, y: 20 },
+    { x: 20, y: 280 },
+    { x: 190, y: 280 }
+  ];
+  
+  corners.forEach(corner => {
+    doc.setFillColor(147, 51, 234);
+    doc.circle(corner.x, corner.y, cornerSize, 'F');
+  });
+  
+  // Restore graphics state
+  doc.restoreGraphicsState();
+};
