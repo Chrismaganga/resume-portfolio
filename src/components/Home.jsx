@@ -203,6 +203,8 @@ const Home = () => {
                 gradient={card.gradient}
                 delay={card.delay}
                 className="h-32"
+                textColor="text-gray-800"
+                textColorSecondary="text-gray-600"
               />
             ))}
           </div>

@@ -226,7 +226,7 @@ async def create_project(project: Project):
             transition={{ delay: 0.5, duration: 0.8 }}
             className="space-y-4"
           >
-            <h3 className="text-2xl font-bold text-center mb-6">
+            <h3 className="text-2xl font-bold text-center mb-6 text-white">
               <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
                 Code Showcase
               </span>
@@ -279,7 +279,7 @@ async def create_project(project: Project):
           transition={{ delay: 1.2, duration: 0.8 }}
           className="mt-16"
         >
-          <h3 className="text-2xl font-bold text-center mb-8">
+          <h3 className="text-2xl font-bold text-center mb-8 text-white">
             <span className="bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">
               Technical Expertise
             </span>
@@ -294,6 +294,8 @@ async def create_project(project: Project):
                 gradient={skill.gradient}
                 delay={index * 0.2}
                 className="h-40"
+                textColor="text-gray-800"
+                textColorSecondary="text-gray-600"
               />
             ))}
           </div>

@@ -7,7 +7,9 @@ const FlashingCard = ({
   icon, 
   gradient = "from-purple-500 to-green-500",
   delay = 0,
-  className = ""
+  className = "",
+  textColor = "text-black",
+  textColorSecondary = "text-black"
 }) => {
   return (
     <motion.div
@@ -33,7 +35,7 @@ const FlashingCard = ({
       <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-purple-500 via-green-500 to-purple-500 bg-[length:200%_100%] animate-[gradient_3s_ease_infinite] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
       
       {/* Main card content */}
-      <div className="relative bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 h-full">
+      <div className="relative bg-white/95 backdrop-blur-sm border border-gray-200 rounded-xl p-6 h-full shadow-lg hover:shadow-xl transition-shadow duration-300">
         {/* Icon with pulsing animation */}
         <motion.div
           animate={{ 
@@ -45,7 +47,7 @@ const FlashingCard = ({
             repeat: Infinity,
             delay: delay
           }}
-          className="text-4xl mb-4 text-white"
+          className="text-4xl mb-4 text-gray-800"
         >
           {icon}
         </motion.div>
@@ -55,17 +57,17 @@ const FlashingCard = ({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: delay + 0.3, duration: 0.5 }}
-          className="text-xl font-bold text-white mb-2"
+          className={`text-xl font-bold ${textColor} mb-2`}
         >
           {title}
         </motion.h3>
         
-        {/* Description with fade-in effect */}
+        {/* Description with fade-in effect - FORCE BLACK TEXT */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: delay + 0.5, duration: 0.5 }}
-          className="text-white/80 text-sm leading-relaxed"
+          className="text-black text-sm leading-relaxed font-medium"
         >
           {description}
         </motion.p>
@@ -84,7 +86,7 @@ const FlashingCard = ({
         {[...Array(6)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-1 h-1 bg-white/30 rounded-full"
+            className="absolute w-1 h-1 bg-gray-400/30 rounded-full"
             animate={{
               x: [0, Math.random() * 200 - 100],
               y: [0, Math.random() * 200 - 100],

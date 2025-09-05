@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 import DjangoAPI from "./DjangoAPI";
-import FlashingCard from "./FlashingCard";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -44,13 +43,13 @@ const Contact = () => {
     {
       icon: <FaPhone className="text-2xl" />,
       title: "Phone",
-      value: "+1 (555) 123-4567",
+      value: "+27 678375681",
       gradient: "from-green-500 to-emerald-500"
     },
     {
       icon: <FaMapMarkerAlt className="text-2xl" />,
       title: "Location",
-      value: "San Francisco, CA",
+      value: "Cape Town, South Africa",
       gradient: "from-purple-500 to-pink-500"
     }
   ];
@@ -119,14 +118,14 @@ const Contact = () => {
               Contact Me
             </span>
           </h2>
-          <p className="py-6 text-xl">Let's build something amazing together</p>
+          <p className="py-6 text-xl text-white">Let's build something amazing together</p>
           
           {/* API Toggle Button */}
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setShowAPI(!showAPI)}
-            className="mb-8 px-6 py-3 bg-gradient-to-r from-green-600 to-blue-600 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+            className="mb-8 px-6 py-3 bg-gradient-to-r from-green-600 to-blue-600 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 text-white"
           >
             {showAPI ? 'Hide API Documentation' : 'View API Documentation'}
           </motion.button>
@@ -155,30 +154,66 @@ const Contact = () => {
             transition={{ delay: 0.3, duration: 0.8 }}
             className="space-y-8"
           >
-            <h3 className="text-2xl font-bold mb-6">
+            <h3 className="text-2xl font-bold mb-6 text-white">
               <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
                 Get In Touch
               </span>
             </h3>
 
-            {/* Contact info cards */}
+            {/* Contact info cards - Direct implementation */}
             <div className="space-y-4">
               {contactInfo.map((info, index) => (
-                <FlashingCard
+                <motion.div
                   key={index}
-                  title={info.title}
-                  description={info.value}
-                  icon={info.icon}
-                  gradient={info.gradient}
-                  delay={index * 0.2}
-                  className="h-20"
-                />
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.2, duration: 0.5 }}
+                  className="relative group cursor-pointer"
+                >
+                  {/* Animated background gradient */}
+                  <div className={`absolute inset-0 bg-gradient-to-r ${info.gradient} rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm`}></div>
+                  
+                  {/* Main card content */}
+                  <div className="relative bg-white/95 backdrop-blur-sm border border-gray-200 rounded-xl p-6 h-20 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                    <div className="flex items-center space-x-4">
+                      {/* Icon */}
+                      <motion.div
+                        animate={{ 
+                          scale: [1, 1.1, 1],
+                          rotate: [0, 5, -5, 0]
+                        }}
+                        transition={{ 
+                          duration: 2,
+                          repeat: Infinity,
+                          delay: index * 0.2
+                        }}
+                        className="text-2xl text-gray-800"
+                      >
+                        {info.icon}
+                      </motion.div>
+                      
+                      {/* Content */}
+                      <div className="flex-1">
+                        <h4 className="text-lg font-bold text-black mb-1">{info.title}</h4>
+                        <p className="text-black text-sm font-medium">{info.value}</p>
+                      </div>
+                    </div>
+                    
+                    {/* Animated underline */}
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: "100%" }}
+                      transition={{ delay: index * 0.2 + 0.7, duration: 0.8 }}
+                      className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-purple-400 to-green-400 rounded-full"
+                    ></motion.div>
+                  </div>
+                </motion.div>
               ))}
             </div>
 
             {/* Social links */}
             <div className="mt-8">
-              <h4 className="text-lg font-semibold mb-4 text-white/90">Follow Me</h4>
+              <h4 className="text-lg font-semibold mb-4 text-white">Follow Me</h4>
               <div className="flex space-x-4">
                 {socialLinks.map((social, index) => (
                   <motion.a
@@ -188,7 +223,7 @@ const Contact = () => {
                     rel="noopener noreferrer"
                     whileHover={{ scale: 1.2, rotate: 5 }}
                     whileTap={{ scale: 0.9 }}
-                    className={`p-3 rounded-full bg-gradient-to-r ${social.gradient} shadow-lg hover:shadow-xl transition-all duration-300`}
+                    className={`p-3 rounded-full bg-gradient-to-r ${social.gradient} shadow-lg hover:shadow-xl transition-all duration-300 text-white`}
                   >
                     {social.icon}
                   </motion.a>
@@ -204,7 +239,7 @@ const Contact = () => {
             transition={{ delay: 0.5, duration: 0.8 }}
             className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20"
           >
-            <h3 className="text-2xl font-bold mb-6">
+            <h3 className="text-2xl font-bold mb-6 text-white">
               <span className="bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">
                 Send Message
               </span>
