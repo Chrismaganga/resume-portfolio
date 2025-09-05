@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
+import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaGithub, FaLinkedin, FaTwitter, FaDownload } from "react-icons/fa";
 import DjangoAPI from "./DjangoAPI";
+import { generateResumePDF } from "../utils/pdfGenerator";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -33,6 +34,15 @@ const Contact = () => {
     alert('Message sent successfully!');
   };
 
+  const handleDownloadResume = () => {
+    try {
+      generateResumePDF();
+    } catch (error) {
+      console.error('Error downloading resume:', error);
+      alert('Error downloading resume. Please try again.');
+    }
+  };
+
   const contactInfo = [
     {
       icon: <FaEnvelope className="text-2xl" />,
@@ -43,7 +53,7 @@ const Contact = () => {
     {
       icon: <FaPhone className="text-2xl" />,
       title: "Phone",
-      value: "+27 678375681",
+      value: "+1 (555) 123-4567",
       gradient: "from-green-500 to-emerald-500"
     },
     {
@@ -120,15 +130,27 @@ const Contact = () => {
           </h2>
           <p className="py-6 text-xl text-white">Let's build something amazing together</p>
           
-          {/* API Toggle Button */}
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setShowAPI(!showAPI)}
-            className="mb-8 px-6 py-3 bg-gradient-to-r from-green-600 to-blue-600 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 text-white"
-          >
-            {showAPI ? 'Hide API Documentation' : 'View API Documentation'}
-          </motion.button>
+          {/* Action Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setShowAPI(!showAPI)}
+              className="px-6 py-3 bg-gradient-to-r from-green-600 to-blue-600 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 text-white cursor-pointer"
+            >
+              {showAPI ? 'Hide API Documentation' : 'View API Documentation'}
+            </motion.button>
+            
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleDownloadResume}
+              className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 text-white flex items-center gap-2 cursor-pointer"
+            >
+              <FaDownload className="text-lg" />
+              Download Resume
+            </motion.button>
+          </div>
         </motion.div>
 
         {/* API Documentation Section */}
@@ -223,7 +245,7 @@ const Contact = () => {
                     rel="noopener noreferrer"
                     whileHover={{ scale: 1.2, rotate: 5 }}
                     whileTap={{ scale: 0.9 }}
-                    className={`p-3 rounded-full bg-gradient-to-r ${social.gradient} shadow-lg hover:shadow-xl transition-all duration-300 text-white`}
+                    className={`p-3 rounded-full bg-gradient-to-r ${social.gradient} shadow-lg hover:shadow-xl transition-all duration-300 text-white cursor-pointer`}
                   >
                     {social.icon}
                   </motion.a>
@@ -299,7 +321,7 @@ const Contact = () => {
                 disabled={isSubmitting}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="w-full bg-gradient-to-r from-purple-600 to-green-600 px-6 py-4 rounded-lg font-semibold text-white shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-gradient-to-r from-purple-600 to-green-600 px-6 py-4 rounded-lg font-semibold text-white shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               >
                 {isSubmitting ? (
                   <motion.div

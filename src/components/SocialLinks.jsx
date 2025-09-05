@@ -43,7 +43,7 @@ const SocialLinks = () => {
         </>
       ),
       onClick: generateResumePDF,
-      style: "rounded-br-md",
+      style: "rounded-br-md cursor-pointer",
     },
   ];
 
